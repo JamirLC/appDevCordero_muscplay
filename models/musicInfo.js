@@ -11,6 +11,10 @@ const information = {
     getAll: (callback) => {
         const query = "SELECT * FROM playlist";
         db.query(query, callback);
+    },
+    getAllS: (callback) => {
+        const query = "SELECT * FROM musics";
+        db.query(query, callback);
     }
 };
 

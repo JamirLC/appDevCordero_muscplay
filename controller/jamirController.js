@@ -2,12 +2,22 @@ const musicInfo = require('../models/musicInfo');
 
 const jmski = {
     index: (req, res) => {
-        musicInfo.getAll((err, results) => {
+        // Fetch data from the 'playlist' table
+        musicInfo.getAll((err, playlistResults) => {
             if (err) {
-                console.error("Error fetching music information:", err);
-                res.status(500).send("Error fetching music information.");
+                console.error("Error fetching playlist information:", err);
+                res.status(500).send("Error fetching playlist information.");
             } else {
-                res.render('index', { information: results });
+                // Fetch data from the 'musics' table
+                musicInfo.getAllS((err, musicResults) => {
+                    if (err) {
+                        console.error("Error fetching music information:", err);
+                        res.status(500).send("Error fetching music information.");
+                    } else {
+                        // Pass both datasets to the view
+                        res.render('index', { playlists: playlistResults, musics: musicResults });
+                    }
+                });
             }
         });
     },
