@@ -29,7 +29,25 @@ const information = {
         WHERE p.playlist_id = ?
     `;
         db.query(query, [id], callback);
+    },
+    // // Delete a song entirely from the musics table
+    // delete: (musicId, callback) => {
+    //     const query = "DELETE FROM musics WHERE id = ?";
+    //     db.query(query, [musicId], callback);
+    // },
+
+    // // Remove a song from a specific playlist
+    // removeMfromP: (playlistId, musicId, callback) => {
+    //     const query = "DELETE FROM playmusic WHERE playlist_id = ? AND music_id = ?";
+    //     db.query(query, [playlistId, musicId], callback);
+    // },
+
+    // Add a song to a playlist
+    addMtoP: (playlistId, musicId, callback) => {
+        const query = "INSERT INTO playmusic (playlist_id, music_id) VALUES (?, ?)";
+        db.query(query, [playlistId, musicId], callback);
     }
+
 
 
 };
