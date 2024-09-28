@@ -2,6 +2,8 @@ const musicInfo = require('../models/musicInfo');
 
 const jmski = {
     index: (req, res) => {
+        const playlistId = req.params.id; // Get playlist ID from route params
+
         // Fetch data from the 'playlist' table
         musicInfo.getAll((err, playlistResults) => {
             if (err) {
@@ -14,8 +16,29 @@ const jmski = {
                         console.error("Error fetching music information:", err);
                         res.status(500).send("Error fetching music information.");
                     } else {
-                        // Pass both datasets to the view
-                        res.render('index', { playlists: playlistResults, musics: musicResults });
+                        // If a playlist ID is provided, fetch the music titles for that playlist
+                        if (playlistId) {
+                            musicInfo.selectpd(playlistId, (err, selectedPlaylistMusic) => {
+                                if (err) {
+                                    console.error("Error fetching selected playlist details:", err);
+                                    res.status(500).send("Error fetching selected playlist details.");
+                                } else {
+                                    // Pass all datasets (playlists, musics, and selected playlist songs) to the view
+                                    res.render('index', {
+                                        playlists: playlistResults,
+                                        musics: musicResults,
+                                        selectedPlaylistSongs: selectedPlaylistMusic // List of songs for the selected playlist
+                                    });
+                                }
+                            });
+                        } else {
+                            // If no playlist ID is provided, render the page without a specific playlist
+                            res.render('index', {
+                                playlists: playlistResults,
+                                musics: musicResults,
+                                selectedPlaylistSongs: musicResults // Use musicResults here
+                            });
+                        }
                     }
                 });
             }
