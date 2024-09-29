@@ -8,6 +8,10 @@ const information = {
         const query = "INSERT INTO playlist (name) values(?)";
         db.query(query, [data.name], callback);
     },
+    delete: (id, callback) => {
+        const query = "DELETE FROM musics WHERE id =?";
+        db.query(query, [id], callback);
+    },
     getAll: (callback) => {
         const query = "SELECT * FROM playlist";
         db.query(query, callback);

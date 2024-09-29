@@ -7,6 +7,7 @@ const jmski = require('../controller/jamirController');
 
 
 router.get('/upload', jmski.upload);
+router.get('/delete/:id', jmski.delete);
 router.get('/create', jmski.create);
 router.post('/creates', jmski.creates);
 router.post('/savef', upload.single('file'), jmski.savef); // Apply multer middleware here

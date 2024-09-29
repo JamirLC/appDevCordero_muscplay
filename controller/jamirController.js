@@ -63,6 +63,14 @@ const jmski = {
         res.render('create');
     },
 
+    delete: (req, res) => {
+        const id = req.params.id;
+        musicInfo.delete(id, (err) => {
+            if (err) throw err;
+            res.redirect('/');
+        });
+    },
+
 
     addToPlaylist: (req, res) => {
         const musicId = req.params.musicId; // Get musicId from route parameters
